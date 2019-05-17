@@ -7,7 +7,7 @@
     "books": [
         "books.google.com"
     ],
-    "community-news": [
+    "community": [
         "-irpt",
         "www.globalvoices.org",
         "www.examiner.com"
@@ -90,7 +90,7 @@
     "opinions": [
         "/opinions/"
     ],
-    "press-release": [
+    "press": [
         "prnewswire.com",
         "verticalnewsnetwork.com",
         "whitehouse.gov"
