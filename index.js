@@ -1,23 +1,3 @@
-// Domains organized by type:
-var domainsNews = ["apnews.com", "bbc.co.uk", "bbc.com", "npr.org", "telegraph.co.uk", "content.time.com", "washingtonexaminer.com", "cnbc.com", "phillymag.com", "www.cnn.com", "www.guardian.com", "msnbc.msn.com", "independent.co.uk", "nytimes.com", "www.latimes.com", "articles.latimes.com", "www.starbulletin.com", ".nbcnews.com", ".abcnews.com", "abcnews.go.com", "www.cbsnews.com", "www.foxnews.com", "post-gazette.com", ".washingtonpost.com", "seattletimes.com", "sfchronicle.com", "chicagotribune.com", "usatoday.com/story/", "www.huffpost.com", "www.vox.com", "www.thehill.com", "www.politico.com", "www.slate.com", "www.salon.com", "www.newsweek.com", ".time.com", ".usnews.com", "thedailybeast.com", "www.newrepublic.com", "www.theatlantic.com", "www.qz.com", "reuters.com", "news.yahoo.com", "www.wsj.com", "www.ft.com", "cbcnews.ca", "www.thestar.com", "www.macleans.ca", "theglobeandmail.com", "news.abs-cbn.com", "cnnphilippines.com", "gmanetwork.com/news", "www.inquirer.net", "www.philstar.com", "mb.com.ph", "www.manilatimes.net", "tribune.net.ph", "www.rappler.com", "www.manilastandard.net", "www.theguardian.com", "thetimes.co.uk", "independent.co.uk", "aljazeera.com", "csmonitor.com", "ctvnews.ca", "macleans.ca", "tribuneindia.com"];
-var domainsCommunityNews = ["-irpt", "www.globalvoices.org", "www.examiner.com"];
-var domainsOpinion = ["/opinions/"];
-var domainsBlog = ["insider.foxnews.com", "politicalticker.blogs.cnn.com", "npr.org/blogs"];
-var domainsStateMedia = ["news.cn/", "kcna.kp", "presstv.ir", ".gov"];
-var domainsTabloids = ["www.nationalenquirer.com", "thesun.co.uk", "mirror.co.uk", "dailymail.co.uk"];
-var domainsPressRelease = ["prnewswire.com", "verticalnewsnetwork.com", "whitehouse.gov", "donaldjtrump.com"];
-var domainsSocial = ["www.facebook.com", "www.instagram.com", "www.twitter.com", "www.tumblr.com", "www.reddit.com"];
-var domainsBook = ["books.google.com"];
-
-// Placeholder arrays for bias ratings:
-var domainsBiasLeft = [];
-var domainsBiasLeftCenter = [];
-var domainsBiasCenter = [];
-var domainsBiasRightCenter = [];
-var domainsBiasRight = [];
-var domainsBiasFakeNews = [];
-var domainsBiasConspiracy = [];
-
 // Store all elements with tag name 'ref':
 var refs = document.getElementsByTagName("cite");
 
@@ -37,59 +17,75 @@ var getJSON = function(url, callback) {
 	xhr.send();
 };
 
-// Get data from Media Bias/Fact Check, and then start adding icons:
-getJSON("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json", function(err, data) {
-	Object.keys(data).forEach(function(k) {
-		if(data[k].bias === "left") {
-			domainsBiasLeft.push("." + k);
-		} else if(data[k].bias === "leftcenter") {
-			domainsBiasLeftCenter.push("." + k);
-		} else if(data[k].bias === "center") {
-			domainsBiasCenter.push("." + k);
-		} else if(data[k].bias === "rightcenter") {
-			domainsBiasRightCenter.push("." + k);
-		} else if(data[k].bias === "right") {
-			domainsBiasRight.push("." + k);
-		} else if(data[k].bias === "fake-news") {
-			domainsBiasFakeNews.push("." + k);
-		} else if(data[k].bias === "conspiracy") {
-			domainsBiasConspiracy.push("." + k);
+// Instantiating array for categorized domain strings array:
+var categorizedDomainStrings = [];
+
+// Instantiating arrays for bias ratings:
+var domainsBiasLeft = [];
+var domainsBiasLeftCenter = [];
+var domainsBiasCenter = [];
+var domainsBiasRightCenter = [];
+var domainsBiasRight = [];
+var domainsBiasFakeNews = [];
+var domainsBiasConspiracy = [];
+
+// Fetch domain string types and populate above arrays:
+getJSON("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/categorized-domain-strings.json", function(err, returnData) {
+	categorizedDomainStrings = returnData;
+	// Get data from Media Bias/Fact Check, and then start adding icons:
+	getJSON("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json", function(err, data) {
+		Object.keys(data).forEach(function(k) {
+			if(data[k].bias === "left") {
+				domainsBiasLeft.push("." + k);
+			} else if(data[k].bias === "leftcenter") {
+				domainsBiasLeftCenter.push("." + k);
+			} else if(data[k].bias === "center") {
+				domainsBiasCenter.push("." + k);
+			} else if(data[k].bias === "rightcenter") {
+				domainsBiasRightCenter.push("." + k);
+			} else if(data[k].bias === "right") {
+				domainsBiasRight.push("." + k);
+			} else if(data[k].bias === "fake-news") {
+				domainsBiasFakeNews.push("." + k);
+			} else if(data[k].bias === "conspiracy") {
+				domainsBiasConspiracy.push("." + k);
+			}
+		});
+		
+		for (var i = 0; i < refs.length; i++) {
+			addIcons(refs.item(i));
 		}
 	});
-
-	for (var i = 0; i < refs.length; i++) {
-	   addIcons(refs.item(i));
-	}
 });
 
 function addIcons(ref) {
 	var refLinks = ref.getElementsByClassName("external");
 	if (refLinks.length > 0) {
-		if (domainsNews.some(el => refLinks[0].getAttribute('href').includes(el)) && !domainsBlog.some(el => refLinks[0].getAttribute('href').includes(el)) && !domainsOpinion.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.news.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "news");
 		}
-		if (domainsCommunityNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.community.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "community");
 		}
-		if (domainsOpinion.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "opinion");
 		}
-		if (domainsBlog.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "blog");
 		}
-		if (domainsStateMedia.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.government.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "government");
 		}
-		if (domainsTabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "tabloid");		
 		}
-		if (domainsPressRelease.some(el => refLinks[0].getAttribute('href').includes(el)) || refLinks[0].parentNode.classList.contains("pressrelease")) {
+		if (categorizedDomainStrings.press.some(el => refLinks[0].getAttribute('href').includes(el)) || refLinks[0].parentNode.classList.contains("pressrelease")) {
 			processIcon(refLinks[0], "press");	
 		}
-		if (domainsSocial.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.social.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "social");	
 		}
-		if (domainsBook.some(el => refLinks[0].getAttribute('href').includes(el))) {
+		if (categorizedDomainStrings.books.some(el => refLinks[0].getAttribute('href').includes(el))) {
 			processIcon(refLinks[0], "book");
 		}
 
