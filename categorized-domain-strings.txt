@@ -1,0 +1,111 @@
+{
+    "blogs": [
+        "insider.foxnews.com",
+        "politicalticker.blogs.cnn.com",
+        "npr.org/blogs"
+    ],
+    "books": [
+        "books.google.com"
+    ],
+    "community-news": [
+        "-irpt",
+        "www.globalvoices.org",
+        "www.examiner.com"
+    ],
+    "government" : [
+        "news.cn/",
+        "kcna.kp",
+        "presstv.ir",
+        ".gov"
+    ],
+    "news": [
+        "apnews.com",
+		"bbc.co.uk",
+		"bbc.com",
+		"npr.org",
+		"telegraph.co.uk",
+		"content.time.com",
+		"washingtonexaminer.com",
+		"cnbc.com",
+		"phillymag.com",
+		"www.cnn.com",
+		"www.guardian.com",
+		"msnbc.msn.com",
+		"independent.co.uk",
+		"nytimes.com",
+		"www.latimes.com",
+		"articles.latimes.com",
+		"www.starbulletin.com",
+		".nbcnews.com",
+		".abcnews.com",
+		"abcnews.go.com",
+		"www.cbsnews.com",
+		"www.foxnews.com",
+		"post-gazette.com",
+		".washingtonpost.com",
+		"seattletimes.com",
+		"sfchronicle.com",
+		"chicagotribune.com",
+		"usatoday.com/story/",
+		"www.huffpost.com",
+		"www.vox.com",
+		"www.thehill.com",
+		"www.politico.com",
+		"www.slate.com",
+		"www.salon.com",
+		"www.newsweek.com",
+		".time.com",
+		".usnews.com",
+		"thedailybeast.com",
+		"www.newrepublic.com",
+		"www.theatlantic.com",
+		"www.qz.com",
+		"reuters.com",
+		"news.yahoo.com",
+		"www.wsj.com",
+		"www.ft.com",
+		"cbcnews.ca",
+		"www.thestar.com",
+		"www.macleans.ca",
+		"theglobeandmail.com",
+		"news.abs-cbn.com",
+		"cnnphilippines.com",
+		"gmanetwork.com/news",
+		"www.inquirer.net",
+		"www.philstar.com",
+		"mb.com.ph",
+		"www.manilatimes.net",
+		"tribune.net.ph",
+		"www.rappler.com",
+		"www.manilastandard.net",
+		"www.theguardian.com",
+		"thetimes.co.uk",
+		"independent.co.uk",
+		"aljazeera.com",
+		"csmonitor.com",
+		"ctvnews.ca",
+		"macleans.ca",
+		"tribuneindia.com"
+    ],
+    "opinions": [
+        "/opinions/"
+    ],
+    "press-release": [
+        "prnewswire.com",
+        "verticalnewsnetwork.com",
+        "whitehouse.gov"
+    ],
+    "social": [
+        "www.facebook.com",
+        "www.instagram.com",
+        "www.twitter.com",
+        "www.tumblr.com",
+        "www.reddit.com"
+    ],
+    "tabloids": [
+        "www.nationalenquirer.com",
+        "thesun.co.uk",
+        "mirror.co.uk",
+        "dailymail.co.uk"
+    ]
+}
