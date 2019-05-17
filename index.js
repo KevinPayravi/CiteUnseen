@@ -38,7 +38,7 @@ var getJSON = function(url, callback) {
 };
 
 // Get data from Media Bias/Fact Check, and then start adding icons:
-getJSON("", function(err, data) {
+getJSON("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json", function(err, data) {
 	Object.keys(data).forEach(function(k) {
 		if(data[k].bias === "left") {
 			domainsBiasLeft.push("." + k);
