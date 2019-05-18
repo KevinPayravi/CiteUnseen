@@ -82,7 +82,7 @@ function addIcons(categorizedDomainStrings, biasArrays) {
 				notNews = true;
 			}
 			if(!notNews) {
-				if (categorizedDomainStrings.news.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				if (categorizedDomainStrings.news.some(el => refLinks[0].getAttribute('href').includes(el))) {
 					processIcon(refLinks[0], "news");
 				}
 			}
