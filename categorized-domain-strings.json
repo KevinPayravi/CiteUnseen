@@ -16,9 +16,17 @@
     "government": [
         ".gov",
         ".mil",
+        "agenciabrasil.ebc.com.br/",
         "kcna.kp",
+        "kcna.kp/",
+        "kenyanews.go.ke/",
+        "nan.ng",
         "news.cn/",
-        "presstv.ir"
+        "news.vnanet.vn/",
+        "pna.gov.ph",
+        "presstv.ir",
+        "tass.com/",
+        "telam.com.ar"
     ],
     "news": [
         ".abcnews.com",
