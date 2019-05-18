@@ -1,118 +1,110 @@
 // Store all elements with tag name 'ref':
 var refs = document.getElementsByTagName("cite");
 
-// JSON getter:
-var getJSON = function(url, callback) {
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', url, true);
-	xhr.responseType = 'json';
-	xhr.onload = function() {
-		var status = xhr.status;
-		if (status === 200) {
-			callback(null, xhr.response);
-		} else {
-			callback(status, xhr.response);
-		}
-	};
-	xhr.send();
-};
+fetchURLs();
 
-// Instantiating array for categorized domain strings array:
-var categorizedDomainStrings = [];
+async function fetchURLs() {
+	try {
+		// Fetch categorized domain strings and MediaBiasFactCheck data:
+		var data = await Promise.all([
+			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/categorized-domain-strings.json").then((response) => response.json()),
+			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json").then((response) => response.json())
+		]);
 
-// Instantiating arrays for bias ratings:
-var domainsBiasLeft = [];
-var domainsBiasLeftCenter = [];
-var domainsBiasCenter = [];
-var domainsBiasRightCenter = [];
-var domainsBiasRight = [];
-var domainsBiasFakeNews = [];
-var domainsBiasConspiracy = [];
+		processFetchedData(data);
 
-// Fetch domain string types and populate above arrays:
-getJSON("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/categorized-domain-strings.json", function(err, returnData) {
-	categorizedDomainStrings = returnData;
-	// Get data from Media Bias/Fact Check, and then start adding icons:
-	getJSON("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json", function(err, data) {
-		Object.keys(data).forEach(function(k) {
-			if(data[k].bias === "left") {
-				domainsBiasLeft.push("." + k);
-			} else if(data[k].bias === "leftcenter") {
-				domainsBiasLeftCenter.push("." + k);
-			} else if(data[k].bias === "center") {
-				domainsBiasCenter.push("." + k);
-			} else if(data[k].bias === "rightcenter") {
-				domainsBiasRightCenter.push("." + k);
-			} else if(data[k].bias === "right") {
-				domainsBiasRight.push("." + k);
-			} else if(data[k].bias === "fake-news") {
-				domainsBiasFakeNews.push("." + k);
-			} else if(data[k].bias === "conspiracy") {
-				domainsBiasConspiracy.push("." + k);
-			}
-		});
-		
-		for (var i = 0; i < refs.length; i++) {
-			addIcons(refs.item(i));
+	} catch (error) {
+		console.log("Cite Unseen error: " + error);
+	}
+}
+
+function processFetchedData(data) {
+	// Store categorized domain strings:
+	var categorizedDomainStrings = data[0];
+
+	// Instantiating object of arrays for bias ratings:
+	var biasArrays = {"domainsBiasLeft":[],"domainsBiasLeftCenter":[],"domainsBiasCenter":[],"domainsBiasRightCenter":[],"domainsBiasRight":[],"domainsBiasFakeNews":[],"domainsBiasConspiracy":[],};
+
+	// Process MediaBiasFactCheck data:
+	data = data[1];
+	Object.keys(data).forEach(function(k) {
+		if(data[k].bias === "left") {
+			biasArrays.domainsBiasLeft.push("." + k);
+		} else if(data[k].bias === "leftcenter") {
+			biasArrays.domainsBiasLeftCenter.push("." + k);
+		} else if(data[k].bias === "center") {
+			biasArrays.domainsBiasCenter.push("." + k);
+		} else if(data[k].bias === "rightcenter") {
+			biasArrays.domainsBiasRightCenter.push("." + k);
+		} else if(data[k].bias === "right") {
+			biasArrays.domainsBiasRight.push("." + k);
+		} else if(data[k].bias === "fake-news") {
+			biasArrays.domainsBiasFakeNews.push("." + k);
+		} else if(data[k].bias === "conspiracy") {
+			biasArrays.domainsBiasConspiracy.push("." + k);
 		}
 	});
-});
 
-function addIcons(ref) {
-	var refLinks = ref.getElementsByClassName("external");
-	if (refLinks.length > 0) {
-		if (categorizedDomainStrings.news.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "news");
-		}
-		if (categorizedDomainStrings.community.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "community");
-		}
-		if (categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "opinion");
-		}
-		if (categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "blog");
-		}
-		if (categorizedDomainStrings.government.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "government");
-		}
-		if (categorizedDomainStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "tabloid");		
-		}
-		if (categorizedDomainStrings.press.some(el => refLinks[0].getAttribute('href').includes(el)) || refLinks[0].parentNode.classList.contains("pressrelease")) {
-			processIcon(refLinks[0], "press");	
-		}
-		if (categorizedDomainStrings.social.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "social");	
-		}
-		if (categorizedDomainStrings.books.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "book");
-		}
+	addIcons(categorizedDomainStrings, biasArrays);
+}
 
-		if (domainsBiasLeft.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "left");
-		}
-		if (domainsBiasLeftCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "leftcenter");
-		}
-		if (domainsBiasCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "center");
-		}
-		if (domainsBiasRightCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "rightcenter");
-		}
-		if (domainsBiasRight.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "right");
-		}
-		if (domainsBiasFakeNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "fake");
-		}
-		if (domainsBiasConspiracy.some(el => refLinks[0].getAttribute('href').includes(el))) {
-			processIcon(refLinks[0], "conspiracy");
-		}
-	} else {
-		if (ref.classList.contains("book")) {
-			processIcon(ref, "book");
+function addIcons(categorizedDomainStrings, biasArrays) {
+	for (var i = 0; i < refs.length; i++) {
+		var refLinks = refs.item(i).getElementsByClassName("external");
+		if (refLinks.length > 0) {
+			if (categorizedDomainStrings.news.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el)) && !categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "news");
+			}
+			if (categorizedDomainStrings.community.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "community");
+			}
+			if (categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "opinion");
+			}
+			if (categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "blog");
+			}
+			if (categorizedDomainStrings.government.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "government");
+			}
+			if (categorizedDomainStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "tabloid");		
+			}
+			if (categorizedDomainStrings.press.some(el => refLinks[0].getAttribute('href').includes(el)) || refLinks[0].parentNode.classList.contains("pressrelease")) {
+				processIcon(refLinks[0], "press");	
+			}
+			if (categorizedDomainStrings.social.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "social");	
+			}
+			if (categorizedDomainStrings.books.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "book");
+			}
+
+			if (biasArrays.domainsBiasLeft.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "left");
+			}
+			if (biasArrays.domainsBiasLeftCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "leftcenter");
+			}
+			if (biasArrays.domainsBiasCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "center");
+			}
+			if (biasArrays.domainsBiasRightCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "rightcenter");
+			}
+			if (biasArrays.domainsBiasRight.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "right");
+			}
+			if (biasArrays.domainsBiasFakeNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "fake");
+			}
+			if (biasArrays.domainsBiasConspiracy.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "conspiracy");
+			}
+		} else {
+			if (refs.item(i).classList.contains("book")) {
+				processIcon(refs.item(i), "book");
+			}
 		}
 	}
 }
