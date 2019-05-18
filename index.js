@@ -84,20 +84,8 @@ function addIcons(categorizedDomainStrings, biasArrays) {
 				}
 			}
 
-			if (biasArrays.domainsBiasLeft.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "left");
-			}
-			if (biasArrays.domainsBiasLeftCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "leftcenter");
-			}
-			if (biasArrays.domainsBiasCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "center");
-			}
-			if (biasArrays.domainsBiasRightCenter.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "rightcenter");
-			}
-			if (biasArrays.domainsBiasRight.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "right");
+			if (biasArrays.domainsBiased.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "biased");
 			}
 			if (biasArrays.domainsBiasFakeNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "fake");
@@ -153,7 +141,7 @@ function processIcon(node, type) {
 			textNode.setAttribute("alt", "Published book");
 			break;
 		case "biased":
-			textNode.setAttribute("src", " data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAQCAQAAABaOFzUAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfjBRIOHzsYOxlYAAABLklEQVQoz2WQTStEYRTHf+eMt8brlLcyLCZRaEKWZJKV7MhiGnZ25CvMzmLI5CPYsGFhZUooFrMQpdjYWEwpU6Qpk5j7WMztufeacxbP6Tm/zv/8DwSjU56JBL/0H9LBIO1u3VR96qiNbmZ03oyZR9YAQr5WM7OaYkRGeTOH3EuCY3699pxcyhVppql3N9glzqpvgJwTC4hF2QTNeELDhImR9yEbHPBlovxQVABNsq/9iAVC2koROGK5aroBoeRckLDIgpMDoKyNhAGSTAKq2/ZYO3ZinJSCTnAHOM4nXQD0OQWMizzoOAyxbl1sAdAjBXl380NykKbNCmRcgSV5kYoYKcstvSIn5syuOUWWJwBaWGSAPNcY2JNvMW7e+Ix7FyBHSSKUeTWnrFCpRf4AJGlMIEom+yIAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTktMDUtMThUMTQ6MzE6NTkrMDA6MDDowwnRAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE5LTA1LTE4VDE0OjMxOjU5KzAwOjAwmZ6xbQAAAABJRU5ErkJggg==");
+			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAOCAYAAADJ7fe0AAAC3npUWHRSYXcgcHJvZmlsZSB0eXBlIGV4aWYAAHja7ZdNkhshDIX3nCJHaEkIiePQ/FTlBjl+HjRjx57JVGWSRRaGckPL4gH6EC6H/uP7CN9QyA8OUc1TTulAiTlmLuj4cZWrpSOu5/WyW7w/2MPR9xcMk6CV6zVtOxXY9T7A4rafj/Zgdev4FqKb8CoyZ5797edbSPiy034PeY8r8Zft7A/XLbvFn9+jIRhNoSccuAvJgWeaswhWIFkKWsWTxHlabPWnRUU/jl24dZ+C1/jj2B1le8hjKMKRtkN6itG2kz7Z5UaNH1ZEb11+/GLIYnIvv8RujOZj9Gt3JSZEKoW9qbcQrh4cT4RS1rCEavgo+rZqRnVssYJYA80TtQbKxIj2oEiNCg3qq61UscTInQ0tc2VZNhfjzHVBibPSYAOeFsTBqoKawMy3tdCaN6/5KlKgHY3gyQQxwoh3NXxk/Eq9CY1Rr0zyhZ4uwDwPAZYxyc0nvACExo6prviuGm5Y72WCFRDUFWbHBstxXhKn0v1syeI86eoRw3GlBlnbAggR5lYshgQEjoQjTYkOYzYixNHBp2DlLJFPECBVbhQG2IgkwEE2YG6MMVq+rHyZcbUAhEpCqvhMIMCKUXF+LDrOUEHexKCqSU1ds5YkKSZNKVmad1QxsWhqyczcshUXj66e3Nw9e8mcBVeY5pQtZM85l4JJC6QLRhd4lHLyKWc89UynnX7ms1Qcnxqr1lStes21NG7SkP4tNQvNW26lU8dR6rFrT92699zLwFkbMuLQkYYNH3mUG7VN9ZEaPZH7nBptapNYXH52pwaz2ZsEzetEJzMQ40ggbpMADjRPZodTjDzJTWZHZiSFMqiRTjiNJjEQjJ1YB93Y3cl9yi1o/CNu/DtyYaL7F+TCRLfJvef2AbVW1i+KLEAzC2dMDxm42ODQvbCX+Zv05Tb8rcBL6CX0EnoJvYReQv+L0BgjNPzPCj8BZF9TFaivfZYAAAAGYktHRAD/AP8A/6C9p5MAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfjBRIPDzdajS0VAAABFUlEQVQoz5XTsSvEYRgH8E+dEMpwcjFRSkmIibosJiYmVn+AYmFwURgsyiDZKSYdI8lokGIQpWRBWSllOMt79Xb97q771lPP8+15vu/zPs/7UhlrmIviJkzjAKkiWVdFpAW7yOAbC3jFJ7rxUqXeGP7QjwIWkcUqHtBerrAXy7gOdoM3HEU5FxhHLklgKJy4g9GIb438qdARXCaJ7CGPgQpXPEE6+EuYVDL1PPrCIJPQgcMoTuM43s4MTvGIHjTit0RkBbcYibgMBovBWegG5kveRhFfYWaltiHsez9KbsZ5gshmgsAPelPYxn0gO9GGCTzjPRK5QgOGUY8nzOIOPsq0ua4G5Mq02aVGbIW/UQgbytZS/A+dO0ULq/eDgAAAAABJRU5ErkJggg==");
 			textNode.setAttribute("alt", "Identified as being moderately to strongly biased towards certain political causes through story selection and/or political affiliation by Media Bias/Fact Check.");
 			break;
 		case "conspiracy":
