@@ -8,13 +8,14 @@ async function fetchURLs() {
 		// Fetch categorized domain strings and MediaBiasFactCheck data:
 		var data = await Promise.all([
 			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/categorized-domain-strings.json").then((response) => response.json()),
-			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json").then((response) => response.json())
+			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json").then((response) => response.json()),
+			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/biasedSourceURLs.txt").then((response) => response.text())
 		]);
 
 		processFetchedData(data);
 
 	} catch (error) {
-		console.log("Cite Unseen error: " + error);
+		console.log("Cite Unseen error on data fetching: " + error);
 	}
 }
 
@@ -23,24 +24,27 @@ function processFetchedData(data) {
 	var categorizedDomainStrings = data[0];
 
 	// Instantiating object of arrays for bias ratings:
-	var biasArrays = {"domainsBiased":[],"domainsBiasFakeNews":[],"domainsBiasConspiracy":[],};
+	var biasArrays = {"domainsBiased":[],"domainsBiasFakeNews":[],"domainsBiasConspiracy":[]};
 
-	// Process MediaBiasFactCheck data:
-	data = data[1];
-	Object.keys(data).forEach(function(k) {
-		if(data[k].bias === "left" || data[k].bias === "right") {
-			biasArrays.domainsBiased.push("." + k);
-		} else if(data[k].bias === "fake-news") {
+	// Process Media Bias Fact Check data to find fake news and conspiracy sites:
+	fullMBFCDataset = data[1];
+	Object.keys(fullMBFCDataset).forEach(function(k) {
+		if(fullMBFCDataset[k].bias === "fake-news") {
 			biasArrays.domainsBiasFakeNews.push("." + k);
-		} else if(data[k].bias === "conspiracy") {
+		}
+		if(fullMBFCDataset[k].bias === "conspiracy") {
 			biasArrays.domainsBiasConspiracy.push("." + k);
 		}
 	});
+
+	// Store biased domains based on Media Bias Fact Check data:
+	biasArrays.domainsBiased = data[2].split("\n");
 
 	addIcons(categorizedDomainStrings, biasArrays);
 }
 
 function addIcons(categorizedDomainStrings, biasArrays) {
+	console.log(biasArrays);
 	var notNews;
 	for (var i = 0; i < refs.length; i++) {
 		notNews = false;
