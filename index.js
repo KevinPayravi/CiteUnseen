@@ -8,7 +8,7 @@ async function fetchURLs() {
 		// Fetch categorized domain strings and MediaBiasFactCheck data:
 		var data = await Promise.all([
 			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/categorized-domain-strings.json").then((response) => response.json()),
-			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data.json").then((response) => response.json()),
+			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/fullMBFCData.json").then((response) => response.json()),
 			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/biasedSourceURLs.txt").then((response) => response.text())
 		]);
 
