@@ -44,7 +44,6 @@ function processFetchedData(data) {
 }
 
 function addIcons(categorizedDomainStrings, biasArrays) {
-	console.log(biasArrays);
 	var notNews;
 	for (var i = 0; i < refs.length; i++) {
 		notNews = false;
