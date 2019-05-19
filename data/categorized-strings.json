@@ -1,0 +1,29 @@
+{
+	"biased": [
+	],
+    "blogs": [
+    ],
+    "books": [
+    ],
+    "community": [
+        "-irpt"
+    ],
+    "conspiracy": [
+    ],
+    "fakeNews": [
+    ],
+    "government": [
+    ],
+    "news": [
+    ],
+    "opinions": [
+        "/opinion/",
+        "/opinions/"
+    ],
+    "press": [
+    ],
+    "social": [
+    ],
+    "tabloids": [
+    ]
+}
