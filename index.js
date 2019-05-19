@@ -7,69 +7,83 @@ async function fetchURLs() {
 	try {
 		// Fetch categorized domain strings and MediaBiasFactCheck data:
 		var data = await Promise.all([
-			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data/categorized-domains.json").then((response) => response.json())
+			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data/categorized-domains.json").then((response) => response.json()),
+			fetch("https://raw.githubusercontent.com/KevinPayravi/Cite-Unseen/master/data/categorized-strings.json").then((response) => response.json())
 		]);
 
-		var categorizedDomainStrings = data[0];
-		addIcons(categorizedDomainStrings);
+		var categorizedDomains = data[0];
+		var categorizedStrings = data[1];
+		addIcons(categorizedDomains, categorizedStrings);
 
 	} catch (error) {
 		console.log("Cite Unseen error on data fetching: " + error);
 	}
 }
 
-function addIcons(categorizedDomainStrings) {
+function addIcons(categorizedDomains, categorizedStrings) {
 	var notNews;
 	for (var i = 0; i < refs.length; i++) {
 		notNews = false;
 		var refLinks = refs.item(i).getElementsByClassName("external");
 		if (refLinks.length > 0) {
 			// Check if ref's link is in any of our datasets; we check for most serious categories last so the icon appears first in the icon set:
-			if (categorizedDomainStrings.books.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.books.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.books.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "book");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.press.some(el => refLinks[0].getAttribute('href').includes(el)) || refLinks[0].parentNode.classList.contains("pressrelease")) {
+			if (categorizedDomains.press.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.press.some(el => refLinks[0].getAttribute('href').includes(el)) || refLinks[0].parentNode.classList.contains("pressrelease")) {
 				processIcon(refLinks[0], "press");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.social.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.social.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.social.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "social");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.community.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.community.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.community.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "community");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.opinions.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "opinion");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.blogs.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "blog");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.tabloids.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "tabloid");
 				notNews = true;	
 			}
-			if (categorizedDomainStrings.fakeNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.fakeNews.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.fakeNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "fake");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.conspiracy.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.conspiracy.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.conspiracy.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "conspiracy");
 				notNews = true;
 			}
 			if(!notNews) {
-				if (categorizedDomainStrings.news.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				if (categorizedDomains.news.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+				|| categorizedStrings.news.some(el => refLinks[0].getAttribute('href').includes(el))) {
 					processIcon(refLinks[0], "news");
 				}
 			}
-			if (categorizedDomainStrings.government.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.government.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.government.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "government");
 			}
-			if (categorizedDomainStrings.biased.some(el => refLinks[0].getAttribute('href').includes(el))) {
+			if (categorizedDomains.biased.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+			|| categorizedStrings.biased.some(el => refLinks[0].getAttribute('href').includes(el))) {
 				processIcon(refLinks[0], "biased");
 			}
 		} else {
