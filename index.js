@@ -24,53 +24,53 @@ function addIcons(categorizedDomainStrings) {
 		notNews = false;
 		var refLinks = refs.item(i).getElementsByClassName("external");
 		if (refLinks.length > 0) {
-			// Check if ref's link is in any of our datasets; we check for most serious categories first so the icon appears first in the icon set:
-			if (categorizedDomainStrings.conspiracy.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "conspiracy");
-				notNews = true;
-			}
-			if (categorizedDomainStrings.fakeNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "fake");
-				notNews = true;
-			}
-			if (categorizedDomainStrings.biased.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "biased");
-			}
-			if (categorizedDomainStrings.government.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "government");
-			}
-			if (categorizedDomainStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "tabloid");
-				notNews = true;	
-			}
-			if (categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "blog");
-				notNews = true;
-			}
-			if (categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "opinion");
-				notNews = true;
-			}
-			if (categorizedDomainStrings.community.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "community");
-				notNews = true;
-			}
-			if (categorizedDomainStrings.social.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "social");
+			// Check if ref's link is in any of our datasets; we check for most serious categories last so the icon appears first in the icon set:
+			if (categorizedDomainStrings.books.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "book");
 				notNews = true;
 			}
 			if (categorizedDomainStrings.press.some(el => refLinks[0].getAttribute('href').includes(el)) || refLinks[0].parentNode.classList.contains("pressrelease")) {
 				processIcon(refLinks[0], "press");
 				notNews = true;
 			}
-			if (categorizedDomainStrings.books.some(el => refLinks[0].getAttribute('href').includes(el))) {
-				processIcon(refLinks[0], "book");
+			if (categorizedDomainStrings.social.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "social");
+				notNews = true;
+			}
+			if (categorizedDomainStrings.community.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "community");
+				notNews = true;
+			}
+			if (categorizedDomainStrings.opinions.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "opinion");
+				notNews = true;
+			}
+			if (categorizedDomainStrings.blogs.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "blog");
+				notNews = true;
+			}
+			if (categorizedDomainStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "tabloid");
+				notNews = true;	
+			}
+			if (categorizedDomainStrings.fakeNews.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "fake");
+				notNews = true;
+			}
+			if (categorizedDomainStrings.conspiracy.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "conspiracy");
 				notNews = true;
 			}
 			if(!notNews) {
 				if (categorizedDomainStrings.news.some(el => refLinks[0].getAttribute('href').includes(el))) {
 					processIcon(refLinks[0], "news");
 				}
+			}
+			if (categorizedDomainStrings.government.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "government");
+			}
+			if (categorizedDomainStrings.biased.some(el => refLinks[0].getAttribute('href').includes(el))) {
+				processIcon(refLinks[0], "biased");
 			}
 		} else {
 			if (refs.item(i).classList.contains("book")) {
