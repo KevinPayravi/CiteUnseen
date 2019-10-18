@@ -69,7 +69,7 @@ function processExtremes(linkArray) {
                     politicalScaleImage = politicalScaleImage[0].attribs.src;
 
                     try {
-                        // If the image src indicates a far-left source...
+                        // If the image src indicates an extreme source...
                         if (politicalScaleImage.includes('extreme') || politicalScaleImage.includes('7.') || politicalScaleImage.includes('6.') || politicalScaleImage.includes('5.') || politicalScaleImage.includes('4.') || politicalScaleImage.includes('3.') || politicalScaleImage.includes('2.') || politicalScaleImage.includes('1.')) {
                             // ...get the p-children of the element with the class 'entry-content':
                             var descriptionParagraphs = $('.entry-content').children('p');
@@ -78,7 +78,7 @@ function processExtremes(linkArray) {
                                 // If the first child (text) of the p-child has the text 'Source:'...
                                 if (descriptionParagraphs[j].firstChild.data !== undefined) {
                                     if (descriptionParagraphs[j].firstChild.data.includes('Source:')) {
-                                        // ...find the link and push it to the farLeftSources array:
+                                        // ...find the link and append URL to biased sources text file:
                                         var url = descriptionParagraphs[j].firstChild.nextSibling.attribs.href.replace('https://', '').replace('http://', '').replace('www.', '')
                                         fs.appendFile('biasedSourceURLs.txt', url + '\n', (err) => {
                                             if (err) console.log(err);
