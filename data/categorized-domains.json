@@ -1472,7 +1472,9 @@
         "ynetnews.com",
         "zeit.de"
     ],
-    "opinions": [],
+    "opinions": [
+        "theguardian.com/commentisfree/",
+    ],
     "press": [
         "1888pressrelease.com/",
         "openpr.com/news/",
