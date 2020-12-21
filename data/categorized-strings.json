@@ -1,29 +1,25 @@
 {
-	"biased": [
-	],
-    "blogs": [
-    ],
-    "books": [
-    ],
+    "advocacy": [],
+    "blogs": [],
+    "books": [],
     "community": [
         "-irpt"
     ],
-    "conspiracy": [
+    "editable": [
+        "/wiki/"
     ],
-    "fakeNews": [
-    ],
-    "government": [
-    ],
-    "news": [
-    ],
+    "government": [],
+    "mbfcConspiracy": [],
+    "mbfcQuestionable": [],
+    "news": [],
     "opinions": [
         "/opinion/",
         "/opinions/"
     ],
-    "press": [
-    ],
-    "social": [
-    ],
-    "tabloids": [
-    ]
+    "predatory": [],
+    "press": [],
+    "rspDeprecated": [],
+    "rspGenerallyUnreliable": [],
+    "social": [],
+    "tabloids": []
 }
