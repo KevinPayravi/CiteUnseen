@@ -1,6 +1,10 @@
 // Store all elements with tag name 'ref':
 var refs = document.getElementsByTagName("cite");
 
+// JSON objects with domain and string categorizaitons:
+var categorizedDomains = {"advocacy":[],"blogs":[],"books":[],"community":[],"editable":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspBlacklisted":[],"rspDeprecated":[],"rspGenerallyReliable":[],"rspGenerallyUnreliable":[],"rspMarginallyReliable":[],"rspMulti":[],"social":[],"tabloids":[]};
+var categorizedStrings = {"advocacy":[],"blogs":[],"books":[],"community":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspDeprecated":[],"rspGenerallyUnreliable":[],"social":[],"tabloids":[],"editable":[]};
+
 // Default toggle settings:
 cite_unseen_ruleset = {
 	"advocacy": true,
@@ -35,18 +39,11 @@ mw.loader.getScript('/w/index.php?title=User:' + encodeURIComponent(mw.config.ge
 				cite_unseen_ruleset[key] = window.cite_unseen_rules[key];
 			}
 		}
-		fetchURLs();
+		addIcons(categorizedDomains, categorizedStrings);
 	} catch(err) {
 		console.log('Cite Unseen: Could not read custom rules.')
 	}
 })
-
-async function fetchURLs() {
-	var categorizedDomains = {"advocacy":[],"blogs":[],"books":[],"community":[],"editable":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspBlacklisted":[],"rspDeprecated":[],"rspGenerallyReliable":[],"rspGenerallyUnreliable":[],"rspMarginallyReliable":[],"rspMulti":[],"social":[],"tabloids":[]};
-	var categorizedStrings = {"advocacy":[],"blogs":[],"books":[],"community":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspDeprecated":[],"rspGenerallyUnreliable":[],"social":[],"tabloids":[],"editable":[]};
-	
-	addIcons(categorizedDomains, categorizedStrings);
-}
 
 function addIcons(categorizedDomains, categorizedStrings) {
 	var notNews;
