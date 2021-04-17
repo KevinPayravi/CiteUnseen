@@ -95,7 +95,9 @@ function addIcons(categorizedDomains, categorizedStrings) {
 				}
 				if (cite_unseen_ruleset.government && (categorizedDomains.government.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
 				|| categorizedStrings.government.some(el => refLinks[0].getAttribute('href').includes(el)))) {
-					processIcon(refLinks[0], "government");
+					if (!refs.item(i).classList.contains("journal")) {
+						processIcon(refLinks[0], "government");
+					}
 				}
 				if (cite_unseen_ruleset.tabloids && (categorizedDomains.tabloids.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
 				|| categorizedStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el)))) {
