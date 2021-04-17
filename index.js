@@ -241,7 +241,7 @@ function processIcon(node, type) {
 			textNode.setAttribute("title", "[Cite Unseen] This source is a tabloid article.");
 			break;
 		case "tvProgram":
-			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARAgMAAABGA69pAAAADFBMVEUAAACoqKgAAAA1NTWxW1e8AAAAAnRSTlMAWWQkJGgAAAA4SURBVAjXY2BgaGhgAIJGMPnoAIhUYwABayBmWrVqAQMD16pVKxgYNIAMILlqVRd+EqISogtqAgBQEBiFRNOi6QAAAABJRU5ErkJggg==");
+			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAAY1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABmaHTeAAAAIHRSTlMAqrX79++886/r3wjRxaFpRB8QAuXk2cuZkY93VUI0KKnnAu0AAABkSURBVBjTrchHDoMwAAXRT+w4obf0UOb+pwRhhACx5EmzGXl18/pWWikSIPzHmnUOL8prjcqPYfFudaTMgpVCUgYRS09JASZ22KmUqz+6Y3XhNnbmScGFmDlbqWcr14+tRA92BiEuELFwk9M6AAAAAElFTkSuQmCC");
 			textNode.setAttribute("alt", "This source is a television or radio program. Its reliability depends on the individual program.");
 			textNode.setAttribute("title", "[Cite Unseen] This source is a television or radio program. Its reliability depends on the individual program.");
 			break;
