@@ -2845,5 +2845,12 @@
         "sundaymail.co.uk/",
         "thesun.co.uk/",
         "usmagazine.com/"
+    ],
+    "tvPrograms": [
+        "abc.com/shows/",
+        "bbc.co.uk/programmes/",
+        "cnn.com/videos/",
+        "pbs.org/video/",
+        "video.foxnews.com"
     ]
 }

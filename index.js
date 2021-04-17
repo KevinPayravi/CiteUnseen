@@ -2,8 +2,8 @@
 var refs = document.getElementsByTagName("cite");
 
 // JSON objects with domain and string categorizaitons:
-var categorizedDomains = {"advocacy":[],"blogs":[],"books":[],"community":[],"editable":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspBlacklisted":[],"rspDeprecated":[],"rspGenerallyReliable":[],"rspGenerallyUnreliable":[],"rspMarginallyReliable":[],"rspMulti":[],"social":[],"tabloids":[]};
-var categorizedStrings = {"advocacy":[],"blogs":[],"books":[],"community":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspDeprecated":[],"rspGenerallyUnreliable":[],"social":[],"tabloids":[],"editable":[]};
+var categorizedDomains = {"advocacy":[],"blogs":[],"books":[],"community":[],"editable":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspBlacklisted":[],"rspDeprecated":[],"rspGenerallyReliable":[],"rspGenerallyUnreliable":[],"rspMarginallyReliable":[],"rspMulti":[],"social":[],"tabloids":[],"tvPrograms":[]};
+var categorizedStrings = {"advocacy":[],"blogs":[],"books":[],"community":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"rspDeprecated":[],"rspGenerallyUnreliable":[],"social":[],"tabloids":[],"editable":[],"tvPrograms":[]};
 
 // Default toggle settings:
 cite_unseen_ruleset = {
@@ -24,7 +24,8 @@ cite_unseen_ruleset = {
 	"rspGenerallyReliable": false,
 	"rspMulti": true,
 	"social": true,
-	"tabloids": true
+	"tabloids": true,
+	"tvPrograms": true
 }
 
 // Get the user's custom rules from User:<username>/CiteUnseen-Rules.js
@@ -102,6 +103,11 @@ function addIcons(categorizedDomains, categorizedStrings) {
 				if (cite_unseen_ruleset.tabloids && (categorizedDomains.tabloids.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
 				|| categorizedStrings.tabloids.some(el => refLinks[0].getAttribute('href').includes(el)))) {
 					processIcon(refLinks[0], "tabloid");
+					notNews = true;	
+				}
+				if (cite_unseen_ruleset.tvPrograms && (categorizedDomains.tvPrograms.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+				|| categorizedStrings.tvPrograms.some(el => refLinks[0].getAttribute('href').includes(el)))) {
+					processIcon(refLinks[0], "tvProgram");
 					notNews = true;	
 				}
 				if (cite_unseen_ruleset.predatory && (categorizedDomains.predatory.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el)))) {
@@ -233,6 +239,11 @@ function processIcon(node, type) {
 			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAAe1BMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC9eBywAAAAKHRSTlMA33YN9+rLup5pZkU+8drRtKqTjF9aUyslHxsF4tXDwqujmYaBXBQIt6ZAsgAAAH1JREFUGBl1wVUWwjAABMBNUndXXPf+J4TIa39gBv9cCykVdmPIrxa7mloFvOE01DygnWFF1Dyl4jushVoNmQVwyuB88ZMkfQo4vS+jg+qG/ghrbkiKeE2zEEaa0zi9xg7alNMJYUXcZDAENw8YiUenmGAtcVX6IrgNK376AFE7D6Mmxn6bAAAAAElFTkSuQmCC");
 			textNode.setAttribute("alt", "This source is a tabloid article.");
 			textNode.setAttribute("title", "[Cite Unseen] This source is a tabloid article.");
+			break;
+		case "tvProgram":
+			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARAgMAAABGA69pAAAADFBMVEUAAACoqKgAAAA1NTWxW1e8AAAAAnRSTlMAWWQkJGgAAAA4SURBVAjXY2BgaGhgAIJGMPnoAIhUYwABayBmWrVqAQMD16pVKxgYNIAMILlqVRd+EqISogtqAgBQEBiFRNOi6QAAAABJRU5ErkJggg==");
+			textNode.setAttribute("alt", "This source is a television or radio program. Its reliability depends on the individual program.");
+			textNode.setAttribute("title", "[Cite Unseen] This source is a television or radio program. Its reliability depends on the individual program.");
 			break;
 		default:
 			break;
