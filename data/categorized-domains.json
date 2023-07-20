@@ -2377,6 +2377,7 @@
         "bbc.co.uk/",
         "bbc.com/",
         "bellingcat.com/",
+        "bloomberg.com/",
         "businessweek.com/",
         "burkespeerage.com/",
         "buzzfeednews.com/",
@@ -2656,6 +2657,7 @@
         "askmen.com/",
         "ballotpedia.org/",
         "biography.com/",
+        "bloomberg.com/profile/",
         "boingboing.net/",
         "businessinsider.com/",
         "www.insider.com/",
@@ -2750,7 +2752,6 @@
     "rspMulti": [
         "aa.com.tr/en/",
         "aa.com.tr/",
-        "bloomberg.com/",
         "buzzfeed.com/",
         "forbes.com/",
         "foxnews.com/",
