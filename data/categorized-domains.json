@@ -2880,6 +2880,19 @@
         "vk.com/",
         "youtube.com/watch?v="
     ],
+    "sponsored": [
+        "amny.com/sponsored",
+        "ctvnews.ca/sponsored-content",
+        "gq.com/sponsored",
+        "lamag.com/sponsored",
+        "lfpress.com/sponsored",
+        "nationalpost.com/sponsored",
+        "newsweek.com/sponsored",
+        "seattletimes.com/sponsored",
+        "thestar.com/sponsored_sections",
+        "vancouverisawesome.com/sponsored",
+        "wired.com/insights"
+    ],
     "tabloids": [
         "ahaonline.cz/",
         "bild.de/",

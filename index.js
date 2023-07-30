@@ -2,8 +2,8 @@
 var refs = document.getElementsByTagName("cite");
 
 // JSON objects with domain and string categorizaitons:
-var categorizedDomains = {"advocacy":[],"blogs":[],"books":[],"community":[],"editable":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"satire": [],"rspBlacklisted":[],"rspDeprecated":[],"rspGenerallyReliable":[],"rspGenerallyUnreliable":[],"rspMarginallyReliable":[],"rspMulti":[],"social":[],"tabloids":[],"tvPrograms":[]};
-var categorizedStrings = {"advocacy":[],"blogs":[],"books":[],"community":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"satire":[],"rspDeprecated":[],"rspGenerallyUnreliable":[],"social":[],"tabloids":[],"editable":[],"tvPrograms":[]};
+var categorizedDomains = {"advocacy":[],"blogs":[],"books":[],"community":[],"editable":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"satire": [],"sponsored": [],"rspBlacklisted":[],"rspDeprecated":[],"rspGenerallyReliable":[],"rspGenerallyUnreliable":[],"rspMarginallyReliable":[],"rspMulti":[],"social":[],"tabloids":[],"tvPrograms":[]};
+var categorizedStrings = {"advocacy":[],"blogs":[],"books":[],"community":[],"government":[],"news":[],"opinions":[],"predatory":[],"press":[],"satire":[],"sponsored": [],"rspDeprecated":[],"rspGenerallyUnreliable":[],"social":[],"tabloids":[],"editable":[],"tvPrograms":[]};
 
 // Default toggle settings:
 cite_unseen_ruleset = {
@@ -18,6 +18,7 @@ cite_unseen_ruleset = {
 	"predatory": true,
 	"press": true,
 	"satire": true,
+	"sponsored": true,
 	"rspDeprecated": true,
 	"rspBlacklisted": true,
 	"rspGenerallyUnreliable": true,
@@ -78,6 +79,11 @@ function addIcons(categorizedDomains, categorizedStrings) {
 				if (cite_unseen_ruleset.satire && (categorizedDomains.satire.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
 				|| categorizedStrings.satire.some(el => refLinks[0].getAttribute('href').includes(el)))) {
 					processIcon(refLinks[0], "satire");
+					notNews = true;
+				}
+				if (cite_unseen_ruleset.sponsored && (categorizedDomains.sponsored.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
+				|| categorizedStrings.sponsored.some(el => refLinks[0].getAttribute('href').includes(el)))) {
+					processIcon(refLinks[0], "sponsored");
 					notNews = true;
 				}
 				if (cite_unseen_ruleset.community && (categorizedDomains.community.some(el => refLinks[0].getAttribute('href').includes("." + el) || refLinks[0].getAttribute('href').includes("//" + el))
@@ -210,6 +216,11 @@ function processIcon(node, type) {
 			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAARCAYAAAAG/yacAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wceCDI64ByhXQAAAPFJREFUKM+V0zFKQ0EQBuBvn4pWClaWYiF6Ck+Qy+Qi6VLkFNbpxEOYMoQQrCRqY0h8azML6+NJ4g/LMjP/zD/8y8IYLR4x0I9B1FuME3KH8IoXfOAc97iqCQnfcW9j0lmP0hcanCAXpTaSBduI2yAWtGiKUtMzfYfjnnwrlDadQq5OjQ1yUVg7DOt6jYwJbjDqKI0iP4l4l6piOkApI9XvtKucPIohuTIqFWNSceMfSmAVwXxPwzx4qwazSH7uaSr1GQwrM6Z/NEwrzjDhNLqvg/COJ7zhEg+4qFa8K5Nusei8T/csgteLZyzjaywj/oUf7bdVPf0Xy7cAAAAASUVORK5CYII=");
 			textNode.setAttribute("alt", "This source publishes satirical content.");
 			textNode.setAttribute("title", "[Cite Unseen] This source publishes satirical content.");
+			break;
+		case "sponsored":
+			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAASCAYAAAC9+TVUAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wceCRIMu+B6UQAAAUVJREFUOMuN079KXFEQx/HPVQwqEgIpU2yRzpSBFG7lK+QNtjeNQjqxCYivkCovkfRWQdhlCx9ALGyWgIWBsFl3b5o5MjneKw4Md5j5zu/8m8v/9gXXWGBc1caRvw6u0y7Rhq9SfNuTvyyNa0nkPL4tmtTwKgk0EWf+kR0HtIymVUfcBvdgTYrXA9rCi2iqbQ1/8Sfxj2yUzvyUj/qOcvRMgeJHtcAw3cU8tjyvmnK+3M0wi0wiuaie8gc+4meVL9wki+RC+X7GS7wJ5rSHe3idktxIc/Ia+3iLA9xhN9UL38A0CvfpXlp8iwU28ClEcr3wU2msVx2jfYUPGOBdD3fbhOJ6NfLwHnvYwTbO8LuDW8JNzza/YjMWGOB7z7Fv4CLNQVsBv2I651U+8xdw2POrL6phu+/hDsucnGDWAayS1wKz6PMP8f7HxLFPnyIAAAAASUVORK5CYII=");
+			textNode.setAttribute("alt", "This source is sponsored material.");
+			textNode.setAttribute("title", "[Cite Unseen] This source is sponsored material.");
 			break;
 		case "rspDeprecated":
 			textNode.setAttribute("src", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAARCAMAAAAMs7fIAAAAq1BMVEUAAAAUBQUTBQWzJCT///+uIyOwIyOsIiJKEBBLDw9wFhZsFRVHDg67u7tgLS2OIiLLy8ttWVlkPj5kKyv6+vry8vLu7u7j4+Pc3NzX19e3t7eysrKdmJhpVFRhNzdWNDR6IyOhISHp6eno5+fY1tbDw8O6tbWqqamoqKiakJCQkJCQhYWKfX1lSkpYPj5aNTVEMjJnMDBcLy99KiqDKCimISGWICBAHBwsGRlV2YqAAAAAA3RSTlMAp597gGAlAAAAqklEQVQY02XQ1xKCMBAFUHE3BBUSlCLSsffe/v/LTLIjL9ynzJk7s5vt6fTdgY5rqTfBiNs6fGi1ACBFA8AUGWDAg2v4fRqiRvPxc9wXQORygGCTeOiNQYW7PYcBlLOpkccNmGNkQiKPJ7CV2Er8beZlxTkWbSdBxGi5OLz/nVLBPMXwAqpDsyLEFHEn9Syzj8wRVxhX7YoM7mtEv3oR0Na1EDUj6P69e58fVvYMNLFQgRAAAAAASUVORK5CYII=");
