@@ -75,7 +75,7 @@ function runCiteUnseen() {
 	};
 
 	// Default toggle settings:
-	cite_unseen_ruleset = {
+	let cite_unseen_ruleset = {
 		"advocacy": true,
 		"blogs": true,
 		"books": true,
