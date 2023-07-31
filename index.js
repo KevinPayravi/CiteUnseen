@@ -1,13 +1,15 @@
 function runCiteUnseen() {
+	// Start timer that will be output to console at end of script:
 	console.time('CiteUnseen runtime');
-	// Store all elements with tag name 'ref':
+
+	// Store all references:
 	let refs = document.querySelectorAll("span.reference-text");
 
 	// JSON objects with domain and string categorizaitons:
 	let categorizedDomains = { "advocacy": [], "blogs": [], "books": [], "community": [], "editable": [], "government": [], "news": [], "opinions": [], "predatory": [], "press": [], "rspBlacklisted": [], "rspDeprecated": [], "rspGenerallyReliable": [], "rspGenerallyUnreliable": [], "rspMarginallyReliable": [], "rspMulti": [], "satire": [], "social": [], "sponsored": [], "tabloids": [], "tvPrograms": [] };
 	let categorizedStrings = { "advocacy": [], "blogs": [], "books": [], "community": [], "government": [], "news": [], "opinions": [], "predatory": [], "press": [], "rspDeprecated": [], "rspGenerallyUnreliable": [], "satire": [], "social": [], "sponsored": [], "tabloids": [], "editable": [], "tvPrograms": [] };
 	
-	// An empty categorizedDomains that will hold domains that are found on the page:
+	// An empty version of categorizedDomains that will hold domains that are found on the page:
 	let filteredCategorizedDomains = { "advocacy": [], "blogs": [], "books": [], "community": [], "editable": [], "government": [], "news": [], "opinions": [], "predatory": [], "press": [], "rspBlacklisted": [], "rspDeprecated": [], "rspGenerallyReliable": [], "rspGenerallyUnreliable": [], "rspMarginallyReliable": [], "rspMulti": [], "satire": [], "social": [], "sponsored": [], "tabloids": [], "tvPrograms": [] };
 
 	// Default toggle settings:
@@ -71,11 +73,9 @@ function runCiteUnseen() {
 	}
 
 	function addIcons(categorizedDomains, categorizedStrings) {
-		let notNews;
-
 		// Filter categorizedDomains down to just the links that appear in the page's citations
-		// Given how many domains we track, this has significant time savings
-		// Quick test on an article with ~500 citations went 6x faster
+		// Given how many domains we track and our RegExp usage later, this has significant time savings
+		// Quick test on an article with ~500 citations went ~5x faster
 		let allCitationLinks = [];
 		refs.forEach(function(ref) {
 			let refLink = ref.querySelector(".external");
@@ -87,15 +87,18 @@ function runCiteUnseen() {
 			allCitationLinks.forEach(function(link) {
 				categorizedDomains[key].forEach(function(domain) {
 					if (link.includes(domain)) {
-						console.log('wee');
 						filteredCategorizedDomains[key].indexOf(domain) === -1 ? filteredCategorizedDomains[key].push(domain) : null;
 					}
 				});
 			});
 		});
 
+		// Flag for when a source is not news due to being something else:
+		let notNews;
+
 		for (let i = 0; i < refs.length; i++) {
 			notNews = false;
+
 			if (refs.item(i).classList.contains("book")) {
 				if (cite_unseen_ruleset.books) {
 					processIcon(refs.item(i), "book");
@@ -106,7 +109,7 @@ function runCiteUnseen() {
 				if (refLink) {
 					let externalLink = refLink.getAttribute('href');
 
-					// Check if ref's links are in any of our datasets.
+					// Check if ref's first link is in any of our datasets.
 					// Some matches will flag as notNews so that it won't be marked as news, even if there's a match.
 					if (cite_unseen_ruleset.books && (filteredCategorizedDomains.books.some(el => externalLink.match(regexBuilder(el)))
 						|| categorizedStrings.books.some(el => externalLink.includes(el)))) {
