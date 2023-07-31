@@ -6,11 +6,73 @@ function runCiteUnseen() {
 	let refs = document.querySelectorAll("ol.references li");
 
 	// JSON objects with domain and string categorizaitons:
-	let categorizedDomains = { "advocacy": [], "blogs": [], "books": [], "community": [], "editable": [], "government": [], "news": [], "opinions": [], "predatory": [], "press": [], "rspBlacklisted": [], "rspDeprecated": [], "rspGenerallyReliable": [], "rspGenerallyUnreliable": [], "rspMarginallyReliable": [], "rspMulti": [], "satire": [], "social": [], "sponsored": [], "tabloids": [], "tvPrograms": [] };
-	let categorizedStrings = { "advocacy": [], "blogs": [], "books": [], "community": [], "government": [], "news": [], "opinions": [], "predatory": [], "press": [], "rspDeprecated": [], "rspGenerallyUnreliable": [], "satire": [], "social": [], "sponsored": [], "tabloids": [], "editable": [], "tvPrograms": [] };
-	
+	let categorizedDomains = {
+		"advocacy": [],
+		"blogs": [],
+		"books": [],
+		"community": [],
+		"editable": [],
+		"government": [],
+		"news": [],
+		"opinions": [],
+		"predatory": [],
+		"press": [],
+		"rspBlacklisted": [],
+		"rspDeprecated": [],
+		"rspGenerallyReliable": [],
+		"rspGenerallyUnreliable": [],
+		"rspMarginallyReliable": [],
+		"rspMulti": [],
+		"satire": [],
+		"social": [],
+		"sponsored": [],
+		"tabloids": [],
+		"tvPrograms": []
+	};
+	let categorizedStrings = {
+		"advocacy": [],
+		"blogs": [],
+		"books": [],
+		"community": [],
+		"government": [],
+		"news": [],
+		"opinions": [],
+		"predatory": [],
+		"press": [],
+		"rspDeprecated": [],
+		"rspGenerallyUnreliable": [],
+		"satire": [],
+		"social": [],
+		"sponsored": [],
+		"tabloids": [],
+		"editable": [],
+		"tvPrograms": []
+	};
+
 	// An empty version of categorizedDomains that will hold domains that are found on the page:
-	let filteredCategorizedDomains = { "advocacy": [], "blogs": [], "books": [], "community": [], "editable": [], "government": [], "news": [], "opinions": [], "predatory": [], "press": [], "rspBlacklisted": [], "rspDeprecated": [], "rspGenerallyReliable": [], "rspGenerallyUnreliable": [], "rspMarginallyReliable": [], "rspMulti": [], "satire": [], "social": [], "sponsored": [], "tabloids": [], "tvPrograms": [] };
+	let filteredCategorizedDomains = {
+		"advocacy": [],
+		"blogs": [],
+		"books": [],
+		"community": [],
+		"editable": [],
+		"government": [],
+		"news": [],
+		"opinions": [],
+		"predatory": [],
+		"press": [],
+		"rspBlacklisted": [],
+		"rspDeprecated": [],
+		"rspGenerallyReliable": [],
+		"rspGenerallyUnreliable": [],
+		"rspMarginallyReliable": [],
+		"rspMulti": [],
+		"satire": [],
+		"social": [],
+		"sponsored": [],
+		"tabloids": [],
+		"tvPrograms": []
+	};
 
 	// Default toggle settings:
 	cite_unseen_ruleset = {
@@ -37,16 +99,50 @@ function runCiteUnseen() {
 		"tvPrograms": true
 	}
 
+	// Default source ignore settings:
+	cite_unseen_domain_ignore = {
+		"advocacy": [],
+		"blogs": [],
+		"books": [],
+		"community": [],
+		"editable": [],
+		"government": [],
+		"news": [],
+		"opinions": [],
+		"predatory": [],
+		"press": [],
+		"rspDeprecated": [],
+		"rspBlacklisted": [],
+		"rspGenerallyUnreliable": [],
+		"rspMarginallyReliable": [],
+		"rspGenerallyReliable": [],
+		"rspMulti": [],
+		"satire": [],
+		"social": [],
+		"sponsored": [],
+		"tabloids": [],
+		"tvPrograms": []
+	}
+
 	// Get the user's custom rules from User:<username>/CiteUnseen-Rules.js
 	mw.loader.getScript('/w/index.php?title=User:' + encodeURIComponent(mw.config.get('wgUserName')) + '/CiteUnseen-Rules.js&ctype=text/javascript&action=raw')
-		.fail(function (err) {
+		.fail(function(err) {
 			console.log("Error getting Cite Unseen custom rules: " + err.message);
 		})
-		.done(function () {
+		.done(function() {
 			try {
 				if (window.cite_unseen_rules && typeof window.cite_unseen_rules === 'object') {
 					for (let key in window.cite_unseen_rules) {
 						cite_unseen_ruleset[key] = window.cite_unseen_rules[key];
+					}
+				}
+				if (window.cite_unseen_domain_ignore && typeof window.cite_unseen_domain_ignore === 'object') {
+					console.log(window.cite_unseen_domain_ignore);
+					console.log(cite_unseen_domain_ignore);
+					for (let key in window.cite_unseen_domain_ignore) {
+						console.log(key);
+						console.log(cite_unseen_domain_ignore[key]);
+						cite_unseen_domain_ignore[key] = window.cite_unseen_domain_ignore[key];
 					}
 				}
 				addIcons(categorizedDomains, categorizedStrings);
@@ -65,9 +161,9 @@ function runCiteUnseen() {
 		//  does not have any additional / before domain
 		//  domain immediately follows :// or is preceded with a . (to account for subdomains)
 		//  after the domain and path, look for one of the following:
-		//    string ends
-		//    next character is a /
-		//    domain had a period at the end (this allows gov. to match TLDs like gov.uk)
+		//	 string ends
+		//	 next character is a /
+		//	 domain had a period at the end (this allows gov. to match TLDs like gov.uk)
 		let regex = new RegExp('https?:\\/\\/([^\\/]*\\.)?' + escapeRegex(string) + '($|((?<=\\.)|\\/))');
 		return regex;
 	}
@@ -86,7 +182,7 @@ function runCiteUnseen() {
 		Object.keys(categorizedDomains).forEach(function(key) {
 			allCitationLinks.forEach(function(link) {
 				categorizedDomains[key].forEach(function(domain) {
-					if (link.includes(domain)) {
+					if (!cite_unseen_domain_ignore[key]?.includes(domain) && link.includes(domain)) {
 						filteredCategorizedDomains[key].indexOf(domain) === -1 ? filteredCategorizedDomains[key].push(domain) : null;
 					}
 				});
@@ -111,64 +207,64 @@ function runCiteUnseen() {
 
 					// Check if ref's first link is in any of our datasets.
 					// Some matches will flag as notNews so that it won't be marked as news, even if there's a match.
-					if (cite_unseen_ruleset.books && (filteredCategorizedDomains.books.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.books.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.books && (filteredCategorizedDomains.books.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.books.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "book");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.press && (filteredCategorizedDomains.press.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.press.some(el => externalLink.includes(el)) || refLink.parentNode.classList.contains("pressrelease"))) {
+					if (cite_unseen_ruleset.press && (filteredCategorizedDomains.press.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.press.some(el => externalLink.includes(el)) || refLink.parentNode.classList.contains("pressrelease"))) {
 						processIcon(refLink, "press");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.social && (filteredCategorizedDomains.social.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.social.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.social && (filteredCategorizedDomains.social.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.social.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "social");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.satire && (filteredCategorizedDomains.satire.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.satire.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.satire && (filteredCategorizedDomains.satire.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.satire.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "satire");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.sponsored && (filteredCategorizedDomains.sponsored.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.sponsored.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.sponsored && (filteredCategorizedDomains.sponsored.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.sponsored.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "sponsored");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.community && (filteredCategorizedDomains.community.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.community.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.community && (filteredCategorizedDomains.community.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.community.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "community");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.opinions && (filteredCategorizedDomains.opinions.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.opinions.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.opinions && (filteredCategorizedDomains.opinions.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.opinions.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "opinion");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.blogs && (filteredCategorizedDomains.blogs.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.blogs.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.blogs && (filteredCategorizedDomains.blogs.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.blogs.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "blog");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.editable && (filteredCategorizedDomains.editable.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.editable.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.editable && (filteredCategorizedDomains.editable.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.editable.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "editable");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.government && (filteredCategorizedDomains.government.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.government.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.government && (filteredCategorizedDomains.government.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.government.some(el => externalLink.includes(el)))) {
 						if (!refs.item(i).classList.contains("journal")) {
 							processIcon(refLink, "government");
 						}
 					}
-					if (cite_unseen_ruleset.tabloids && (filteredCategorizedDomains.tabloids.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.tabloids.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.tabloids && (filteredCategorizedDomains.tabloids.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.tabloids.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "tabloid");
 						notNews = true;
 					}
-					if (cite_unseen_ruleset.tvPrograms && (filteredCategorizedDomains.tvPrograms.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.tvPrograms.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.tvPrograms && (filteredCategorizedDomains.tvPrograms.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.tvPrograms.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "tvProgram");
 						notNews = true;
 					}
@@ -177,13 +273,12 @@ function runCiteUnseen() {
 						notNews = true;
 					}
 					if (!notNews && cite_unseen_ruleset.news) {
-						if (categorizedDomains.news.some(el => externalLink.match(regexBuilder(el)))
-							|| categorizedStrings.news.some(el => externalLink.includes(el))) {
+						if (categorizedDomains.news.some(el => externalLink.match(regexBuilder(el))) || categorizedStrings.news.some(el => externalLink.includes(el))) {
 							processIcon(refLink, "news");
 						}
 					}
-					if (cite_unseen_ruleset.advocacy && (filteredCategorizedDomains.advocacy.some(el => externalLink.match(regexBuilder(el)))
-						|| categorizedStrings.advocacy.some(el => externalLink.includes(el)))) {
+					if (cite_unseen_ruleset.advocacy && (filteredCategorizedDomains.advocacy.some(el => externalLink.match(regexBuilder(el))) ||
+							categorizedStrings.advocacy.some(el => externalLink.includes(el)))) {
 						processIcon(refLink, "advocacy");
 					}
 					if (cite_unseen_ruleset.rspDeprecated && (filteredCategorizedDomains.rspDeprecated.some(el => externalLink.match(regexBuilder(el))))) {
