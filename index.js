@@ -49,8 +49,20 @@ function runCiteUnseen() {
 			}
 		})
 
+	function escapeRegex(string) {
+		return string.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
+	}
+
 	function regexBuilder(string) {
-		let regex = new RegExp('https?://(.*\.)?' + string + '(/.*|$)');
+		// Given a domain and path, the regex looks for a substring that matches the following rules:
+		//  starts with http:// or https://
+		//  does not have any additional / before domain
+		//  domain immediately follows :// or is preceded with a . (to account for subdomains)
+		//  after the domain and path, look for one of the following:
+		//    string ends
+		//    next character is a /
+		//    domain had a period at the end (this allows gov. to match TLDs like gov.uk)
+		let regex = new RegExp('https?:\\/\\/([^\\/]*\\.)?' + escapeRegex(string) + '($|((?<=\\.)|\\/))');
 		return regex;
 	}
 
