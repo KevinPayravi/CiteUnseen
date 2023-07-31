@@ -3,7 +3,7 @@ function runCiteUnseen() {
 	console.time('CiteUnseen runtime');
 
 	// Store all references:
-	let refs = document.querySelectorAll("span.reference-text");
+	let refs = document.querySelectorAll("ol.references li");
 
 	// JSON objects with domain and string categorizaitons:
 	let categorizedDomains = { "advocacy": [], "blogs": [], "books": [], "community": [], "editable": [], "government": [], "news": [], "opinions": [], "predatory": [], "press": [], "rspBlacklisted": [], "rspDeprecated": [], "rspGenerallyReliable": [], "rspGenerallyUnreliable": [], "rspMarginallyReliable": [], "rspMulti": [], "satire": [], "social": [], "sponsored": [], "tabloids": [], "tvPrograms": [] };
@@ -78,7 +78,7 @@ function runCiteUnseen() {
 		// Quick test on an article with ~500 citations went ~5x faster
 		let allCitationLinks = [];
 		refs.forEach(function(ref) {
-			let refLink = ref.querySelector(".external");
+			let refLink = ref.querySelector("a.external");
 			if (refLink) {
 				allCitationLinks.push(refLink.getAttribute('href'));
 			}
@@ -104,7 +104,7 @@ function runCiteUnseen() {
 					processIcon(refs.item(i), "book");
 				}
 			} else {
-				let refLink = refs.item(i).querySelector(".external");
+				let refLink = refs.item(i).querySelector("a.external");
 
 				if (refLink) {
 					let externalLink = refLink.getAttribute('href');
