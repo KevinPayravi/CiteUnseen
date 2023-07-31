@@ -137,11 +137,7 @@ function runCiteUnseen() {
 					}
 				}
 				if (window.cite_unseen_domain_ignore && typeof window.cite_unseen_domain_ignore === 'object') {
-					console.log(window.cite_unseen_domain_ignore);
-					console.log(cite_unseen_domain_ignore);
 					for (let key in window.cite_unseen_domain_ignore) {
-						console.log(key);
-						console.log(cite_unseen_domain_ignore[key]);
 						cite_unseen_domain_ignore[key] = window.cite_unseen_domain_ignore[key];
 					}
 				}
