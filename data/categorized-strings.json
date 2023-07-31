@@ -1,6 +1,9 @@
 {
     "advocacy": [],
-    "blogs": [],
+    "blogs": [
+        "/blog/",
+        "/blogs/"
+    ],
     "books": [],
     "community": [
         "-irpt"
