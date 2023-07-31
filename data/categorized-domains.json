@@ -2441,6 +2441,7 @@
         "gamasutra.com",
         "gamerankings.com",
         "grubstreet.com",
+        "guardian.co.uk",
         "haaretz.co.il",
         "haaretz.com",
         "hollywoodreporter.com",
@@ -2505,6 +2506,8 @@
         "thecut.com",
         "thedailybeast.com",
         "thediplomat.com",
+        "theguardian.co.uk",
+        "theguardian.com",
         "thehill.com",
         "thehindu.com",
         "theintercept.com",
@@ -2794,7 +2797,6 @@
         "dailymail.co.uk/mailonsunday",
         "forbes.com",
         "foxnews.com",
-        "guardian.co.uk",
         "huffingtonpost.ca",
         "huffingtonpost.co.uk",
         "huffingtonpost.com",
@@ -2817,9 +2819,7 @@
         "newsweek.com",
         "pressreader.com/uk/the-mail-on-sunday",
         "pressreader.com/uk/the-scottish-mail-on-sunday",
-        "sixthtone.com",
-        "theguardian.co.uk",
-        "theguardian.com"
+        "sixthtone.com"
     ],
     "satire": [
         "babylonbee.com",
