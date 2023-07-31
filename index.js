@@ -1,4 +1,5 @@
 function runCiteUnseen() {
+	console.time('CiteUnseen runtime');
 	// Store all elements with tag name 'ref':
 	let refs = document.querySelectorAll("span.reference-text");
 
@@ -92,7 +93,6 @@ function runCiteUnseen() {
 				});
 			});
 		});
-
 
 		for (let i = 0; i < refs.length; i++) {
 			notNews = false;
@@ -204,6 +204,7 @@ function runCiteUnseen() {
 				}
 			}
 		}
+		console.timeEnd('CiteUnseen runtime');
 	}
 
 	function processIcon(node, type) {
