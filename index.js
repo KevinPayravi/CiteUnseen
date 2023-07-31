@@ -106,6 +106,9 @@ function runCiteUnseen() {
 	mw.loader.getScript('/w/index.php?title=User:' + encodeURIComponent(mw.config.get('wgUserName')) + '/CiteUnseen-Rules.js&ctype=text/javascript&action=raw')
 		.fail(function(err) {
 			console.log("Error getting Cite Unseen custom rules: " + err.message);
+
+			// Start process of adding icons:
+			addIcons(categorizedDomains, categorizedStrings);
 		})
 		.done(function() {
 			try {
@@ -131,7 +134,7 @@ function runCiteUnseen() {
 					}
 				}
 
-				// Start process of adding icons
+				// Start process of adding icons:
 				addIcons(categorizedDomains, categorizedStrings);
 			} catch (err) {
 				console.log('Cite Unseen: Could not read custom rules due to error: ', err);
