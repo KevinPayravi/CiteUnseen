@@ -182,7 +182,7 @@ function runCiteUnseen() {
 		Object.keys(categorizedDomains).forEach(function(key) {
 			allCitationLinks.forEach(function(link) {
 				categorizedDomains[key].forEach(function(domain) {
-					if (!cite_unseen_domain_ignore[key]?.includes(domain) && link.includes(domain)) {
+					if ((cite_unseen_domain_ignore[key] && !cite_unseen_domain_ignore[key].includes(domain)) && link.includes(domain)) {
 						filteredCategorizedDomains[key].indexOf(domain) === -1 ? filteredCategorizedDomains[key].push(domain) : null;
 					}
 				});
