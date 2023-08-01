@@ -134,6 +134,20 @@ function runCiteUnseen() {
 					}
 				}
 
+				// Get user's custom domains:
+				if (window.cite_unseen_additional_domains && typeof window.cite_unseen_additional_domains === 'object') {
+					for (let key in window.cite_unseen_additional_domains) {
+						categorizedDomains[key] = categorizedDomains[key].concat(window.cite_unseen_additional_domains[key]);
+					}
+				}
+
+				// Get user's custom strings:
+				if (window.cite_unseen_additional_strings && typeof window.cite_unseen_additional_strings === 'object') {
+					for (let key in window.cite_unseen_additional_strings) {
+						categorizedStrings[key] = categorizedStrings[key].concat(window.cite_unseen_additional_strings[key]);
+					}
+				}
+
 				// Start process of adding icons:
 				addIcons(categorizedDomains, categorizedStrings);
 			} catch (err) {
