@@ -3,7 +3,7 @@ function runCiteUnseen() {
 	console.time('CiteUnseen runtime');
 
 	// Store all references:
-	let refs = document.querySelectorAll("span.reference-text cite, span.reference-text > a.external");
+	let refs = document.querySelectorAll("cite, span.reference-text > a.external");
 
 	// JSON objects with domain and string categorizaitons:
 	let categorizedDomains = {
