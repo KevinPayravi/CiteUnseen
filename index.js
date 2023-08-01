@@ -3,7 +3,7 @@ function runCiteUnseen() {
 	console.time('CiteUnseen runtime');
 
 	// Store all references:
-	let refs = document.querySelectorAll("ol.references li");
+	let refs = document.querySelectorAll("span.reference-text cite, span.reference-text > a.external");
 
 	// JSON objects with domain and string categorizaitons:
 	let categorizedDomains = {
@@ -178,9 +178,13 @@ function runCiteUnseen() {
 		// Quick test on an article with ~500 citations went ~5x faster
 		let allCitationLinks = [];
 		refs.forEach(function(ref) {
-			let refLink = ref.querySelector("a.external");
-			if (refLink) {
-				allCitationLinks.push(refLink.getAttribute('href'));
+			if (ref.nodeName.toLowerCase() === 'a') {
+				allCitationLinks.push(ref.getAttribute('href'));
+			} else {
+				let refLink = ref.querySelector("a.external");
+				if (refLink) {
+					allCitationLinks.push(refLink.getAttribute('href'));
+				}
 			}
 		});
 		Object.keys(categorizedDomains).forEach(function(key) {
@@ -196,15 +200,23 @@ function runCiteUnseen() {
 		// Flag for when a source is not news due to being something else:
 		let notNews;
 
-		for (let i = 0; i < refs.length; i++) {
+		refs.forEach(function(ref) {
 			notNews = false;
 
-			if (refs.item(i).classList.contains("book")) {
+			if (ref.classList.contains("book")) {
 				if (citeUnseenCategories.books) {
-					processIcon(refs.item(i), "book");
+					processIcon(ref, "book");
 				}
 			} else {
-				let refLink = refs.item(i).querySelector("a.external");
+				let refLink = null;
+				if (ref.nodeName.toLowerCase() === 'a') {
+					refLink = ref;
+				} else {
+					let link = ref.querySelector("a.external");
+					if (link) {
+						refLink = link;
+					}
+				}
 
 				if (refLink) {
 					let externalLink = refLink.getAttribute('href');
@@ -258,7 +270,7 @@ function runCiteUnseen() {
 					}
 					if (citeUnseenCategories.government && (filteredCategorizedDomains.government.some(el => externalLink.match(regexBuilder(el))) ||
 							categorizedStrings.government.some(el => externalLink.includes(el)))) {
-						if (!refs.item(i).classList.contains("journal")) {
+						if (!ref.classList.contains("journal")) {
 							processIcon(refLink, "government");
 						}
 					}
@@ -305,7 +317,7 @@ function runCiteUnseen() {
 					}
 				}
 			}
-		}
+		});
 		console.timeEnd('CiteUnseen runtime');
 	}
 
