@@ -200,8 +200,13 @@ function runCiteUnseen() {
 		// Flag for when a source is not news due to being something else:
 		let notNews;
 
+		// Flag for when a source has been identified under an RSP category
+		// Mainly used to disclude from rspMulti
+		let rspSet;
+
 		refs.forEach(function(ref) {
 			notNews = false;
+			rspSet = false;
 
 			if (ref.classList.contains("book")) {
 				if (citeUnseenCategories.books) {
@@ -299,20 +304,25 @@ function runCiteUnseen() {
 					}
 					if (citeUnseenCategories.rspDeprecated && (filteredCategorizedDomains.rspDeprecated.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspDeprecated");
+						rspSet = true;
 					}
 					if (citeUnseenCategories.rspBlacklisted && (filteredCategorizedDomains.rspBlacklisted.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspBlacklisted");
+						rspSet = true;
 					}
 					if (citeUnseenCategories.rspGenerallyUnreliable && (filteredCategorizedDomains.rspGenerallyUnreliable.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspGenerallyUnreliable");
+						rspSet = true;
 					}
 					if (citeUnseenCategories.rspMarginallyReliable && (filteredCategorizedDomains.rspMarginallyReliable.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspMarginallyReliable");
+						rspSet = true;
 					}
 					if (citeUnseenCategories.rspGenerallyReliable && (filteredCategorizedDomains.rspGenerallyReliable.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspGenerallyReliable");
+						rspSet = true;
 					}
-					if (citeUnseenCategories.rspMulti && (filteredCategorizedDomains.rspMulti.some(el => externalLink.match(regexBuilder(el))))) {
+					if (!rspSet && citeUnseenCategories.rspMulti && (filteredCategorizedDomains.rspMulti.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspMulti");
 					}
 				}
