@@ -318,12 +318,13 @@ function runCiteUnseen() {
 						processIcon(refLink, "rspMarginallyReliable");
 						rspSet = true;
 					}
-					if (citeUnseenCategories.rspGenerallyReliable && (filteredCategorizedDomains.rspGenerallyReliable.some(el => externalLink.match(regexBuilder(el))))) {
+					if (!rspSet && citeUnseenCategories.rspGenerallyReliable && (filteredCategorizedDomains.rspGenerallyReliable.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspGenerallyReliable");
 						rspSet = true;
 					}
 					if (!rspSet && citeUnseenCategories.rspMulti && (filteredCategorizedDomains.rspMulti.some(el => externalLink.match(regexBuilder(el))))) {
 						processIcon(refLink, "rspMulti");
+						rspSet = true;
 					}
 				}
 			}
