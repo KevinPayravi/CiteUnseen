@@ -1,3 +1,9 @@
+# DEPRECATED
+This repository is for an old, deprecated version of Cite Unseen.
+
+The new "version 2" repository can be found here:
+https://gitlab.wikimedia.org/kevinpayravi/cite-unseen
+
 # Cite-Unseen
 Cite Unseen is a JavaScript script for the English Wikipedia that automatically adds iconic indicators to citations to quickly convey the nature and bias of sources to readers.
 
